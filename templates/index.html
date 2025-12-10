@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Epileptic Seizure Prediction</title>
+    <style>
+        body {font-family: Arial, sans-serif; background: #121212; color: #fff; text-align: center; margin: 0; padding: 20px;}
+        h1 {color: #00ff9d;}
+        .container {max-width: 900px; margin: 20px auto; padding: 20px; background: #1e1e2e; border-radius: 15px; box-shadow: 0 0 20px rgba(0,255,150,0.3);}
+        .status {font-size: 60px; font-weight: bold; padding: 30px; border-radius: 20px; margin: 20px;}
+        .normal {background: #0f5132; color: #75b798;}
+        .risk {background: #58151c; color: #f8d7da; animation: pulse 1.5s infinite;}
+        @keyframes pulse {0%,100%{opacity:1;} 50%{opacity:0.7;}}
+        .prob {font-size: 40px; margin: 20px;}
+        table {width: 80%; margin: 30px auto; border-collapse: collapse;}
+        th, td {padding: 15px; border: 2px solid #00ff9d;}
+        th {background: #16213e;}
+        .footer {margin-top: 50px; color: #888; font-size: 14px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Live Epileptic Seizure Prediction System</h1>
+        <h2>Real-time EEG via ESP8266</h2>
+
+        <div id="status" class="status normal">Loading...</div>
+        <div class="prob">Seizure Risk Probability: <span id="prob">0.0</span>%</div>
+
+        <h2>Live EEG Features (8 Channels)</h2>
+        <table>
+            <tr><th>Channel</th><th>Value</th></tr>
+            <tr><td>F1</td><td id="F1">0.000</td></tr>
+            <tr><td>F2</td><td id="F2">0.000</td></tr>
+            <tr><td>F3</td><td id="F3">0.000</td></tr>
+            <tr><td>F4</td><td id="F4">0.000</td></tr>
+            <tr><td>F5</td><td id="F5">0.000</td></tr>
+            <tr><td>F6</td><td id="F6">0.000</td></tr>
+            <tr><td>F7</td><td id="F7">0.000</td></tr>
+            <tr><td>F8</td><td id="F8">0.000</td></tr>
+        </table>
+
+        <div class="footer">
+            Last update: <span id="time">Never</span>
+        </div>
+    </div>
+
+    <script>
+        function update() {
+            fetch("/data")
+                .then(r => r.json())
+                .then(d => {
+                    document.getElementById("status").textContent = d.status;
+                    document.getElementById("status").className = "status " + d.color;
+                    document.getElementById("prob").textContent = (d.probability * 100).toFixed(1);
+                    for (let k in d.features) {
+                        document.getElementById(k).textContent = d.features[k];
+                    }
+                    document.getElementById("time").textContent = new Date().toLocaleTimeString();
+                })
+                .catch(() => document.getElementById("status").textContent = "Waiting for data...");
+        }
+        setInterval(update, 500);
+        update();
+    </script>
+</body>
+</html>
