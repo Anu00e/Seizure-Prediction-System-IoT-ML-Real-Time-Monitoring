@@ -96,3 +96,134 @@ Future improvements could include:
 
 ## Project Book:
 [Project Book](https://github.com/nikhilarokkam/EEG-BASED-EPILEPTIC-SEIZURE-PREDICTION-USING-ENSEMBLE-LEARNING/files/15372250/Project.Book.1.pdf)
+
+To run using microcontroller board
+
+# Seizure Prediction System – IoT + ML (Real-Time Monitoring)
+
+A real-time epileptic seizure prediction system enhanced with **Machine Learning**, **Flask backend**, and **ESP32 IoT integration** for continuous monitoring and instant alerts.
+
+---
+
+## System Overview
+
+This updated version includes:
+
+- ESP32 board for real-time sensor/EEG signal transmission  
+- Flask server running ML model predictions  
+- Communication over mobile hotspot IP  
+- Instant output: **Seizure Predicted** / **No Seizure**  
+- Low-latency end-to-end pipeline (IoT → Flask → Response)
+
+---
+
+## How It Works
+
+- The **ESP32** captures or simulates EEG/sensor values.  
+- Data is sent to the **Flask server** through a hotspot local network.  
+- Flask loads the **trained ML model** and predicts seizure likelihood.  
+- Output is returned instantly to the ESP board or terminal.
+
+---
+
+## Prediction Messages
+
+- **If no seizure is predicted:**  
+  “No seizure is going to occur. Keep calm and carry on!”
+
+- **If a seizure is predicted:**  
+  “Warning: A seizure may occur soon. Please take preventive measures.”
+
+---
+
+## Installation and Usage
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Anu00e/Seizure-Prediction-System-IoT-ML-Real-Time-Monitoring.git
+cd Seizure-Prediction-System-IoT-ML-Real-Time-Monitoring
+```
+
+### 2. Install Python Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run the Flask Server
+```bash
+python server.py
+```
+
+The server will display:
+- Server IP  
+- Incoming ESP data  
+- ML prediction output  
+
+---
+
+## IoT Integration (ESP32 + Flask)
+
+### 1. Configure ESP32 Wi-Fi and Server Details
+Open the Arduino code from `/esp_code/` and update:
+
+```cpp
+const char* ssid = "YourHotspotName";
+const char* password = "YourHotspotPassword";
+
+const char* serverIP = "YOUR_FLASK_IP";   // Example: 192.168.43.1
+const int serverPort = 5000;
+```
+
+### 2. Upload ESP Code
+- Open Arduino IDE  
+- Select: Tools → Board → ESP32 Dev Module  
+- Connect device → Upload  
+
+### 3. ESP32 Runtime Behavior
+- Connects to hotspot  
+- Sends EEG features to Flask server  
+- Reads JSON response  
+- Displays “Seizure” / “No Seizure” inside Serial Monitor  
+
+---
+
+## Project Structure
+
+```
+│── server.py                 # Flask backend with ML model
+│── model.pkl                 # Trained ML model
+│── esp_code/                 # Arduino code for ESP32
+│── dataset/                  # EEG dataset
+│── requirements.txt
+│── README.md
+```
+
+---
+
+## Results
+
+Machine Learning model performance:
+
+- **Accuracy:** 94%  
+- **Specificity:** 97%  
+- **Prediction Output:** Seizure / No Seizure  
+
+Real-time IoT latency: **<300 ms** on hotspot network.
+
+---
+
+## Future Enhancements
+
+- Mobile alert app  
+- SMS emergency notifications  
+- Cloud-based EEG storage  
+- Real-time charts & dashboard  
+
+---
+
+## Author
+
+Developed by **Anushiya**  
+IoT • ML • Real-Time System Integration
+
+
